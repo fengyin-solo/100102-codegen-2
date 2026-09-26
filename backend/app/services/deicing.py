@@ -1,6 +1,8 @@
 """除雪防汛业务规则：状态流转、字段校验与筛选口径都收在这里。"""
 from __future__ import annotations
 
+from datetime import date
+
 from typing import Any
 
 from app.store import store
@@ -43,6 +45,7 @@ class DeicingService:
         entry["status"] = STATUS_ORDER[0]
         entry["pending"] = True
         entry["abnormal"] = False
+        entry["created_at"] = str(date.today())
         rows.append(entry)
         return entry, []
 

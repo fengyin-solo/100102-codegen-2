@@ -5,12 +5,12 @@
 """
 from __future__ import annotations
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.routers import ROUTERS
-from app.store import store
+from app.store import OVERVIEW_RANGES, store
 
 app = FastAPI(title="市政道路桥梁养护管理平台", version="1.0.0")
 
@@ -33,6 +33,11 @@ def health() -> dict[str, object]:
 
 
 @app.get("/api/overview")
-def overview() -> dict[str, object]:
-    """运营概览：把各业务模块的待处理量汇总成看板卡片。"""
-    return store.overview()
+def overview(
+    range_key: str = Query(default="today", alias="range", description="统计区间：today、week、month、all"),
+) -> dict[str, object]:
+    """运营概览：按统计区间把各业务模块的待处理量与异常量汇总成看板卡片，支持下钻。"""
+    if range_key not in OVERVIEW_RANGES:
+        options = "、".join(str(spec["label"]) for spec in OVERVIEW_RANGES.values())
+        raise HTTPException(status_code=400, detail=f"统计区间「{range_key}」不存在，可选：{options}")
+    return store.overview(range_key)

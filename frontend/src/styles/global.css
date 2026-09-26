@@ -19,8 +19,23 @@ body { margin: 0; background: #f6f8fb; color: #1f2937; }
 .page-desc { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
 .stat-row { display: flex; gap: 12px; margin-bottom: 12px; }
 .stat-card { flex: 1; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+.stat-card.clickable { cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+.stat-card.clickable:hover { border-color: var(--brand); }
+.stat-card.active { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand); }
 .stat-label { display: block; color: var(--muted); font-size: 12px; }
 .stat-value { font-size: 20px; }
+.stat-hint { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; }
+.range-switch { display: flex; gap: 8px; }
+.range-switch .btn.primary { cursor: default; }
+.drill-panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+.drill-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.drill-title { font-size: 14px; font-weight: 600; }
+.drill-tip { color: var(--muted); font-size: 12px; }
+.latest-at { margin-left: 8px; color: var(--muted); font-size: 12px; }
+.module-link { color: var(--brand); text-decoration: none; }
+.module-link:hover { text-decoration: underline; }
+.data-table .num-col { text-align: right; }
+.num-alert { color: #b42318; font-weight: 600; }
 .filter-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 12px; }
 .filter-item span { display: block; font-size: 12px; color: var(--muted); }
 .data-table { width: 100%; border-collapse: collapse; background: #fff; }

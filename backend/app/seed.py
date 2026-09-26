@@ -1,6 +1,7 @@
 """示例数据：每个模块给几条不同状态的记录，方便起服务后立刻看到内容。"""
 from __future__ import annotations
 
+from datetime import date, timedelta
 from typing import Any
 
 SEED_ROWS: dict[str, list[dict[str, Any]]] = {
@@ -725,3 +726,16 @@ SEED_ROWS: dict[str, list[dict[str, Any]]] = {
   '执法单位': '车辆超限样例3',
   '处置状态': '车辆超限样例3'}]
 }
+
+# 看板按统计区间汇总，需要每条记录的登记时间。这里把示例记录散到不同时间段：
+# 有的就在今天，有的在一周前、一个月前，切换区间时各模块的待处理量和排序才会跟着变，
+# 也总会有模块在短区间内没有记录，可以看到“暂无”的展示效果。
+_AGE_LADDER_DAYS = [0, 1, 3, 6, 9, 13, 18, 24, 31, 45]
+
+_today = date.today()
+_position = 0
+for _rows in SEED_ROWS.values():
+    for _row in _rows:
+        _age = _AGE_LADDER_DAYS[_position % len(_AGE_LADDER_DAYS)]
+        _row["created_at"] = str(_today - timedelta(days=_age))
+        _position += 1
