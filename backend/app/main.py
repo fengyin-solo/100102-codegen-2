@@ -5,12 +5,12 @@
 """
 from __future__ import annotations
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.routers import ROUTERS
-from app.store import store
+from app.store import PERIOD_DAYS, store
 
 app = FastAPI(title="市政道路桥梁养护管理平台", version="1.0.0")
 
@@ -33,6 +33,8 @@ def health() -> dict[str, object]:
 
 
 @app.get("/api/overview")
-def overview() -> dict[str, object]:
-    """运营概览：把各业务模块的待处理量汇总成看板卡片。"""
-    return store.overview()
+def overview(period: str = Query(default="month", description="统计区间：today/week/month/all")) -> dict[str, object]:
+    """运营概览：按统计区间把各业务模块的待处理量、异常量汇总成可下钻看板。"""
+    if period not in PERIOD_DAYS:
+        period = "month"
+    return store.overview(period)

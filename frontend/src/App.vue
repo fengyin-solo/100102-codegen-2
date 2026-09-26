@@ -19,9 +19,14 @@
 </template>
 
 <script setup lang="ts">
+import { MODULES } from '@/config/modules'
 import { useSessionStore } from '@/stores/session'
 
 const store = useSessionStore()
 
-const navItems = [{ label: "运营概览", path: "/" }, { label: "设施台账", path: "/facility" }, { label: "桥梁档案", path: "/bridge" }, { label: "隧道管理", path: "/tunnel" }, { label: "路面状况", path: "/pavement" }, { label: "日常巡查", path: "/patrol" }, { label: "病害记录", path: "/disease" }, { label: "养护维修", path: "/repair" }, { label: "养护材料", path: "/material2" }, { label: "养护机械", path: "/machine" }, { label: "应急抢险", path: "/emergency" }, { label: "除雪防汛", path: "/deicing" }, { label: "占道施工", path: "/occupy" }, { label: "绿化管护", path: "/greening" }, { label: "交安设施", path: "/safety2" }, { label: "边坡挡墙", path: "/geom" }, { label: "路灯管养", path: "/light" }, { label: "排水设施", path: "/drain" }, { label: "养护计划", path: "/plan" }, { label: "市民热线", path: "/complaint" }, { label: "车辆超限", path: "/load" }]
+// 运营概览固定在首位，其余入口全部来自模块注册表，与看板下钻列表同源。
+const navItems = [
+  { label: '运营概览', path: '/' },
+  ...MODULES.map((item) => ({ label: item.name, path: item.path })),
+]
 </script>
